@@ -1,0 +1,94 @@
+
+Types of Exception:
+1. Checked Exception
+2. Unchecked exception
+3. Error
+
+Chained exception:
+http://www.baeldung.com/java-chained-exceptions
+      
+class Not found EXception v/s class not found Error
+https://dzone.com/articles/java-classnotfoundexception-vs-noclassdeffounderro
+
+      
+Using Try-With-Resources
+
+Old way of writing code without try with resource
+public void oldApproach(Path path1, Path path2) throws IOException { BufferedReader in = null;
+BufferedWriter out = null;
+try {
+in = Files.newBufferedReader(path1); out = Files.newBufferedWriter(path2); out.write(in.readLine());
+} finally {
+if (in != null) in.close(); if (out != null) out.close();
+} }
+
+Automatic resource management
+The new try-with-resources statement automatically closes all resources opened in the try clause. 
+This feature is also known as automatic resource management, because Java automatically takes care of the closing.
+
+
+
+Legal vs. illegal configurations with a traditional try statement
+						0 finally blocks	1 finally block		2 or more finally blocks
+0 catch blocks Not 			illegal 			legal				illegal
+1 or more catch blocks 		Legal				legal				illegal
+
+
+The resources created in the try clause are only in scope within the try block. 
+This is another way to remember that the implicit finally runs before any catch/finally blocks that you code yourself. 
+The implicit close has run already, and the resource is no longer available. Do you see why lines 6 and 8 don’t compile in this example?
+
+
+Autoclosable v/s Closable
+--Both are the interface , autoclosable was introduced in java 7.
+differences :
+Closeable extends AutoCloseable and both are interfaces. 
+Closeable throws IOException and AutoCloseable throws Exception
+-Closeable requires implementations to be idempotent.
+
+What is idempotent:
+Idempotent means that the method can called be multiple times without any side effects or undesirable behavior on subsequent runs. For example, it shouldn’t throw an exception the second time or change state or the like
+
+
+What is suppressed Exception :
+--These were introduced in Java 7.0.
+-- Used manly with try-with-resource statement.
+--When you have a statement inside throw an exception and at the same time when we have a close method that also throws exeption
+so exception thrown in try statement takes priority and exception thrown by close methos is suppressed , so this 
+exception is known as suppressed exception.
+
+You can get suppressed exception using the following.
+for (Throwable t: e.getSuppressed())
+System.out.println(t.getMessage());
+----------------------------------------
+Exception wrapping:
+Exception wrapping is wrapping is when you catch an exception, wrap it in a different exception and throw that exception. Here is an example:
+
+    try{
+        dao.readPerson();
+    } catch (SQLException sqlException) {
+        throw new MyException("error text", sqlException);
+    }
+-------------------------------------------
+
+Assertion:
+The syntax for an assert statement has two forms:
+assert boolean_expression;
+assert boolean_expression: error_message;
+The boolean expression must evaluate to true or false. It can be inside optional paren- thesis. 
+The optional error message is a String used as the message for the AssertionError that is thrown.
+That’s right. An assertion throws an AssertionError if it is false. Since programs aren’t supposed to catch an Error, this means that assertion failures are fatal and end the program.
+The three possible outcomes of an assert statement are as follows:
+
+If assertions are disabled, Java skips the assertion and goes on in the code.
+If assertions are enabled and the boolean expression is true, then our assertion has been validated and nothing happens. The program continues to execute in its normal manner.
+If assertions are enabled and the boolean expression is false, then our assertion is invalid and a java.lang.AssertionError is thrown.
+Presuming assertions are enabled, an assertion is a shorter/better way of writing the following:
+
+Enabling Assertions
+By default, assert statements are ignored by the JVM at runtime. To enable assertions, use the -enableassertions  ag on the command line:
+java -enableassertions Rectangle
+You can also use the shortcut -ea  ag:
+java -ea Rectangle
+
+java -disableassertions Rectangle

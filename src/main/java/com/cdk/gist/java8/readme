@@ -1,0 +1,22 @@
+Stream :
+Java 8 adds a Streams API (note the uppercase S) in java.util.stream based on this idea;
+Stream<T> is a sequence of items of type T. You can think of it as a fancy iterator for now. The
+Streams API has many methods that can be chained to form a complex pipeline just like Unix
+commands were chained in the previous example.
+
+Java 8 adds
+the ability to pass methods (your code) as arguments to other methods.
+
+Lambdas—anonymous functions
+
+Predicate :We call this a predicate (that is, a function that returns a boolean). Let’s therefore define an
+
+
+
+Abstract classes vs. interfaces in Java 8
+So what’s the difference between an abstract class and an interface? They both can contain
+abstract methods and methods with a body.
+First, a class can extend only from one abstract class, but a class can implement multiple
+interfaces.
+Second, an abstract class can enforce a common state through instance variables (fields). An
+interface can’t have instance variables.

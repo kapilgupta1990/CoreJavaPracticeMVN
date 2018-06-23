@@ -1,0 +1,20 @@
+Executor framework:
+https://dzone.com/articles/the-executor-framework
+
+How to Create an Executor
+To create an Executor it is possible to use the factory Executors class.
+
+Most common methods are used to create:
+
+an ExecutorService with a single thread to execute commands with method newSingleThreadExecutor.
+
+a ScheduledExecutorService with a single thread to execute commands with the method newSingleThreadScheduledExecutor.
+
+an ExecutorService that use a fixed length pool of threads to execute commands with the method newFixedThreadPool.
+
+an ExecutorService with a pool of threads that creates a new thread if no thread is available and reuse an existing thread if they are available with newCachedThreadPool.
+
+a ScheduledExecutorService with a fixed length pool of threads to execute scheduled commands with the method newScheduledThreadPool.
+
+
+Future class:

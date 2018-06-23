@@ -1,0 +1,105 @@
+5 Steps to connect to the database in java
+Register the driver class: There are 2 ways of doing this.
+either using DriverManager class or Class.forName("driver:string")
+
+Methods of Driver Manager class:
+1. registerDriver
+2. deRegisterDriver
+3. getConnection
+Creating connection
+Creating statement
+Executing queries
+Closing connection
+
+https://www.javatpoint.com/steps-to-connect-to-the-database-in-java
+
+Connection interface:
+---------------------
+A Connection is the session between java application and database. The Connection interface is a factory of Statement, PreparedStatement, and DatabaseMetaData i.e. object of Connection can be used to get the object of Statement and DatabaseMetaData. The Connection interface provide many methods for transaction management like commit(), rollback() etc.
+By default, connection commits the changes after executing queries.
+
+Statement interface:(methods)
+--executeQuery
+--executeUpdate
+--execute
+
+Difference Between executeQuery() Vs executeUpdate() Vs execute() In JDBC:http://javaconceptoftheday.com
+Difference b/w statement-vs-preparedstatement-vs-callablestatement-in-java/ : http://javaconceptoftheday.com/statement-vs-preparedstatement-vs-callablestatement-in-java/
+
+
+callable interface:
+CallableStatement interface is used to call the stored procedures and functions.
+
+Calling stored procedure:
+CallableStatement stmt=con.prepareCall("{call insertR(?,?)}");  
+
+Calling function:
+CallableStatement stmt=con.prepareCall("{?= call sum4(?,?)}");  
+stmt.setInt(2,10);  
+stmt.setInt(3,43);  
+stmt.registerOutParameter(1,Types.INTEGER);  
+stmt.execute();
+
+
+Transaction management in JDBC
+
+--------------------------------------------------------------------------------------
+Jdbc New Features
+The latest version of JDBC is 4.0 currently. Java has updated jdbc api to ease and simplify the coding to database interactivity.
+Here, we are going to see the features included in Jdbc 3.0 and Jdbc 4.0.
+
+Jdbc 4.0 Features
+The important features of JDBC API 4.0 are given below:
+
+Automatic Loading of Driver class You don't need to write Class.forName() now because it is loaded bydefault since jdbc4.
+Subclasses of SQLException Jdbc 4 provides new subclasses of SQLException class for better readability and handling.
+New methods There are many new methods introduced in Connection, PreparedStatement, CallableStatement, ResultSet etc.
+Improved DataSource Now data source implementation is improved.
+Event Handling support in Statement for Connection Pooling Now Connection Pooling can listen statement error and statement closing events.
+ 
+--------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+Transaction is a nothing but simply a set of SQL statements. Every transaction should follow ACID property.
+A- Atomicity
+The 'all or nothing' property. 
+A transaction is an indivisible entity that is either performed in its entirety or will not get performed at all. 
+This is the responsibility or duty of the recovery subsystem of the DBMS to ensure atomicity.
+
+C-Consistency
+A transaction must alter the database from one steady state to another steady state. This is the responsibility of both the DBMS and the application developers to make certain consistency. The DBMS can ensure consistency by putting into effect all the constraints that have been particularly on the database schema such as integrity and enterprise constraints.
+I -> Isolation
+Transactions that are executing independently of one another is the primary concept followed by isolation. In other words, the frictional effects of incomplete transactions should not be visible or come into notice to other transactions going on simultaneously. It is the responsibility of the concurrency control sub-system to ensure adapting the isolation.
+D- > Duraibility
+
+The effects of a successfully accomplished transaction are permanently recorded in the database and must not get lost or vanished due to a subsequent failure. So this becomes the responsibility of the recovery sub-system to ensure durability.
+
+
+
+Transaction Isolation level:
+
+TRANSACTION_READ_UNCOMMITTED : Dirty read, Phanton read and Non repeatable read can occur 
+TRANSACTION_READ_COMMITED : Dirty reads are prevented; non-repeatable reads and phantom reads can occur. 
+
+
+TRANSACTION_REPEATABLE_READ : Dirty reads and non-repeatable reads are prevented; phantom reads can occur. 
+
+TRANSACTION_SERIALIZABTION : Dirty reads, non-repeatable reads and phantom reads are prevented. 
+
+
+
+
+Both non-repeatable and phantom reads have to do with data modification operations from a different transaction, which were committed after your transaction began, and then read by your transaction.
+
+Non-repeatable reads are when your transaction reads committed UPDATES from another transaction. The same row now has different values than it did when your transaction began.
+
+Phantom reads are similar but when reading from committed INSERTS and/or DELETES from another transaction. There are new rows or rows that have disappeared since you began the transaction.
+
+Dirty reads are similar to non-repeatable and phantom reads, but relate to reading UNCOMMITTED data, and occur when an UPDATE, INSERT, or DELETE from another transaction is read, and the other transaction has NOT yet committed the data. It is reading "in progress" data, which may not be complete, and may never actually be committed.
+
