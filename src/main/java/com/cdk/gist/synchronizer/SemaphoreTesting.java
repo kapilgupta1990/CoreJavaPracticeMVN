@@ -19,7 +19,7 @@ class Wahhoom extends Thread {
 
 		
 		semaphore.release();
-		System.out.println("Relaseinf lock..."+threadName);
+		System.out.println("Releasing lock..."+threadName);
 		
 	}
 	@Override

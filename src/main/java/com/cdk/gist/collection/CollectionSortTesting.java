@@ -16,6 +16,7 @@ public class CollectionSortTesting {
 		System.out.println(a);
 		Comparator comparator=Collections.reverseOrder();
 		Collections.sort(a, comparator);
+		
 		System.out.println(a);
 
 	}

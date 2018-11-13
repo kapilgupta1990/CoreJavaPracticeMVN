@@ -1,5 +1,12 @@
 Cyclic Barrier v/s Count Down Latch:
 http://codepumpkin.com/countdownlatch-vs-cyclicbarrier/
+CountDownLatch:
+Consider a IT world scenario where manager divided modules between development teams (A and B) and he wants to assign it to QA team for testing only when both the teams completes their task.
+
+Here manager thread works as main thread and development team works as worker thread. Manager thread waits for development teams thread to complete their task. Once developer teams complete their tasks, they will inform manager thread and then manager thread assign modules to QA team. 
+
+CyclicBarrier:
+Consider the same scenario where manager divided modules between development teams (A and B). He goes on leave. He asked both teams to wait for each other to complete their respective taskand  once both teams are done, assign it to QA team for testing.
 
 Phaser v/s CountDownLatch
 The Phaser is a barrier on which the dynamic number of threads need to wait before continuing execution
@@ -21,17 +28,21 @@ Spin lock :  A spinlock is a lock which causes a thread trying to acquire it to 
 Deadlock v/s Livelock:
 A real-world example of livelock occurs when two people meet in a narrow corridor, and each tries to be polite by moving aside to let the other pass, but they end up swaying from side to side without making any progress because they both repeatedly move the same way at the same time.
 Livelock is a risk with some algorithms that detect and recover from deadlock. 
-If more than one process takes action, the deadlock detection algorithm can be repeatedly triggered. This can be avoided by ensuring that only one process (chosen randomly or by priority) takes action.
+If more than one process takes action, the deadlock detection algorithm can be repeatedly triggered. 
+This can be avoided by ensuring that only one process (chosen randomly or by priority) takes action.
 
 
 Intrinsic lock/monitor lock:
-Internally Java uses a so called monitor also known as monitor lock or intrinsic lock in order to manage synchronization. This monitor is bound to an object, e.g. when using synchronized methods each method share the same monitor of the corresponding object.
+Internally Java uses a so called monitor also known as monitor lock or intrinsic lock in order to manage synchronization. 
+This monitor is bound to an object, e.g. when using synchronized methods each method share the same monitor of the corresponding object.
 
-All implicit monitors implement the reentrant characteristics. Reentrant means that locks are bound to the current thread. A thread can safely acquire the same lock multiple times without running into deadlocks (e.g. a synchronized method calls another synchronized method on the same object).
+All implicit monitors implement the reentrant characteristics. Reentrant means that locks are bound to the current thread. 
+A thread can safely acquire the same lock multiple times without running into deadlocks (e.g. a synchronized method calls another synchronized method on the same object).
 
 Lock reentrance:
 Synchronized blocks in Java are reentrant. 
-This means, that if a Java thread enters a synchronized block of code, and thereby take the lock on the monitor object the block is synchronized on, the thread can enter other Java code blocks synchronized on the same monitor object.
+This means, that if a Java thread enters a synchronized block of code, and thereby take the lock on the monitor object the block is synchronized on, 
+the thread can enter other Java code blocks synchronized on the same monitor object.
 
 
 
@@ -57,15 +68,18 @@ http://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-loc
 
 
 
-Thread Pools: Java comes with inbuit thread pool. You do not necessarly build it. This has been desined using executor service framework.
+Thread Pools: Java comes with inbuit thread pool. 
+You do not necessarly build it. This has been desined using executor service framework.
 
 Synchronized v/s concurrent colllection classes:
-Though both Synchronized and Concurrent Collection classes provide thread-safety, the differences between them comes  in performance, scalability and how they achieve thread-safety. 
+Though both Synchronized and Concurrent Collection classes provide thread-safety, 
+the differences between them comes  in performance, scalability and how they achieve thread-safety. 
 Synchronized collections like synchronized HashMap, Hashtable, HashSet, Vector, and synchronized ArrayList are much slower than their concurrent counterparts 
 e.g. ConcurrentHashMap, CopyOnWriteArrayList, and CopyOnWriteHashSet. 
-Main reason for this slowness is locking; synchronized collections locks the whole collection 
-e.g. whole Map or List while concurrent collection never locks the whole Map or List. T
-hey achieve thread safety by using advanced and sophisticated techniques like lock stripping. For example, the ConcurrentHashMap divides the whole map into several segments and locks only the relevant segments, which allows multiple threads to access other segments of same ConcurrentHashMap without locking.
+Main reason for this slowness is locking; 
+synchronized collections locks the whole collection 
+e.g. whole Map or List while concurrent collection never locks the whole Map or List. 
+They achieve thread safety by using advanced and sophisticated techniques like lock stripping. For example, the ConcurrentHashMap divides the whole map into several segments and locks only the relevant segments, which allows multiple threads to access other segments of same ConcurrentHashMap without locking.
 Similarly, CopyOnWriteArrayList allows multiple reader threads to read without synchronization and when a write happens it copies the whole ArrayList and swap with a newer one.
 
 
@@ -78,8 +92,10 @@ To use pessimistic locking you need either a direct connection to the database (
 
 Optimistic Locking is a strategy where you read a record, take note of a version number (other methods to do this involve dates, timestamps or checksums/hashes) and check that the version hasn't changed before you write the record back. 
 When you write the record back you filter the update on the version to make sure it's atomic. (i.e. hasn't been updated between when you check the version and write the record to the disk) and update the version in one hit.
+
 Traditional locking mechanisms e.g. using synchronized keyword in java, is said to be pessimistic technique of locking or multi-threading.
-The optimistic approach is like the old saying, “It is easier to obtain forgiveness than permission”, where “easier” here means “more efficient”. CAS is an example of optimistic technique. StampedLock also has support for optimistic locking.
+The optimistic approach is like the old saying, “It is easier to obtain forgiveness than permission”, where “easier” here means “more efficient”. 
+CAS is an example of optimistic technique. StampedLock also has support for optimistic locking.
 
 
 

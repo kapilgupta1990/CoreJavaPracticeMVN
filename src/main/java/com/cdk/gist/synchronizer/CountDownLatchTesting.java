@@ -1,59 +1,111 @@
 package com.cdk.gist.synchronizer;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-class PickUpPoint extends Thread{
-	private String sno;
-	private CountDownLatch countDownLatch;
+class Manager {
 
-	public PickUpPoint(String sno,CountDownLatch countDownLatch) {
-		this.sno=sno;
-		this.countDownLatch = countDownLatch;
-	}
-	@Override
-	public void run() {
-		System.out.println(" "+sno+" arrivedd");
-		countDownLatch.countDown();
+	public void performTask() {
+		CountDownLatch countDownLatch = new CountDownLatch(2);
+		Task task = new Task();
+		ExecutorService es = Executors.newCachedThreadPool();
+		es.submit(new DeveloperThread(task, countDownLatch));
+		es.submit(new DeveloperThread(task, countDownLatch));
+		es.submit(new QAThread(task, countDownLatch));
+		es.submit(new DeploymentThread(task, countDownLatch));
+		es.shutdown();
+		// es.
 	}
 
 }
 
-class Bus extends Thread {
+class DeveloperThread implements Runnable {
+
+	private Task task;
 	private CountDownLatch countDownLatch;
 
-	public Bus(CountDownLatch countDownLatch) {
-		this.countDownLatch=countDownLatch;
+	public DeveloperThread(Task task, CountDownLatch countDownLatch) {
+		this.task = task;
+		this.countDownLatch = countDownLatch;
 	}
 
 	@Override
 	public void run() {
-		System.out.println("Waiting for 3 students :...");
+
+		System.out.println("Developer..started work" + Thread.currentThread().getName());
 		try {
-			countDownLatch.await();
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Started...");
+
+		System.out.println("Developer Finished work");
+		countDownLatch.countDown();
+
 	}
+
+}
+
+class QAThread implements Runnable {
+
+	private Task task;
+	private CountDownLatch countDownlatch;
+
+	public QAThread(Task task, CountDownLatch countDownlatch) {
+		this.task = task;
+		this.countDownlatch = countDownlatch;
+	}
+
+	@Override
+	public void run() {
+		System.out.println("Ready for testing : Waiting for development work finished");
+		try {
+			countDownlatch.await();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Testing start");
+		System.out.println("Testing Finished");
+
+	}
+
+}
+
+class DeploymentThread implements Runnable {
+
+	private Task task;
+	private CountDownLatch countDownlatch;
+
+	public DeploymentThread(Task task, CountDownLatch countDownlatch) {
+		this.task = task;
+		this.countDownlatch = countDownlatch;
+	}
+
+	@Override
+	public void run() {
+		System.out.println("Ready for deployment : Waiting for development work finished");
+		try {
+			countDownlatch.await();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Deployment start");
+		System.out.println("Deployment  Finished");
+
+	}
+
 }
 
 public class CountDownLatchTesting {
 
 	public static void main(String[] args) throws InterruptedException {
-		System.out.println("Count down latch");
-		
-		CountDownLatch countDownLatch = new CountDownLatch(3);
-		Bus bus=new Bus(countDownLatch);
-		bus.start();
-		PickUpPoint student1=new PickUpPoint("s1", countDownLatch);
-		PickUpPoint student2=new PickUpPoint("s2", countDownLatch);
-		PickUpPoint student3=new PickUpPoint("s3", countDownLatch);
-		
-		student1.start();
-		student2.start();
-		Thread.sleep(10000);
-		student3.start();
-		
+
+		Manager manager = new Manager();
+		manager.performTask();
+
 	}
 }

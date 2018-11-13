@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import javax.swing.JComponent;
 
-public class PrintArray {
+public class PrintArray <T>{
 
 	public static void main(String[] args) {
 		PrintArray printArray=new PrintArray();
@@ -16,6 +16,7 @@ public class PrintArray {
 		System.out.println();
 		System.out.println(count(ints,0));
 		System.out.println(count(strs,"mahesh"));
+		
 	}
 	private <E> void printArray(E []e){
 		for(E ee: e)
